@@ -12,10 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name="HelloServlet", urlPatterns = {"/hello"}, loadOnStartup = 1)
 public class HelloServlet extends HttpServlet {
     
-	protected void doGet(HttpServletRequest request, 
-                         HttpServletResponse response)
-                         throws IOException, ServletException{
+    private static final long serialVersionUID = -2459069235625043917L;
 
-        response.getWriter().println("Ola, Ihuuuu!");
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.getWriter().print("Hello, World!");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String name = request.getParameter("name");
+        if (name == null)
+            name = "World";
+        request.setAttribute("user", name);
+        request.getRequestDispatcher("response.jsp").forward(request, response);
     }
 }

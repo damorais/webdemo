@@ -3,16 +3,27 @@ plugins {
     id 'org.gretty' version '2.3.1'
 }
 
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
   providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
+  
+  testImplementation 'io.cucumber:cucumber-java8:4.7.1'
+  testImplementation 'io.cucumber:cucumber-junit:4.7.1'
+
   testCompile 'junit:junit:4.12'
+  testCompile("org.mockito:mockito-core:+")  
 }
 
 gretty {
@@ -23,3 +34,14 @@ gretty {
 task stage(dependsOn: ['build', 'clean'])
 
 build.mustRunAfter clean
+
+task cucumber() {
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            main = "cucumber.api.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'gradle.cucumber', 'src/test/resources']
+        }
+    }
+}
