@@ -1,11 +1,23 @@
 package webdemo.entidades;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+//Esta classe est√° emulando um reposit√≥rio de dados no modelo ActiveRecord
 public class Usuario {
-	
+			
+	private int id;
 	private String nome;
 	private String sobrenome;
+	
+	public int getId() {
+		return this.id;
+	}
+	
+	private void setId(int id) {
+		this.id = id;
+	}
 	
 	public String getNome() {
 		return nome;
@@ -25,19 +37,28 @@ public class Usuario {
 		this.sobrenome = sobrenome;
 	}
 	
-	public static ArrayList<Usuario> GetUsuarios(){
-		
-		ArrayList<Usuario> usuarios = new ArrayList<>();
-		
-		usuarios.add(new Usuario("Dino", "da Silva Sauro"));
-		usuarios.add(new Usuario("Fran", "da Silva Sauro"));
-		usuarios.add(new Usuario("Baby", "da Silva Sauro"));
-		usuarios.add(new Usuario("Charlene", "da Silva Sauro"));
-		usuarios.add(new Usuario("Bob", "da Silva Sauro"));
-		usuarios.add(new Usuario("Jo„o", "das Neves"));
-		usuarios.add(new Usuario("Abomin·vel", "das Neves"));
-		
-		return usuarios; 
+	public void save() {
+		if(this.id == 0) {
+			_usuarioSeq++;
+			this.setId(_usuarioSeq);
+			_UsuariosDict.put(_usuarioSeq, this);
+		}else {
+			_UsuariosDict.replace(this.getId(), this);
+		}
 	}
-
+	
+	public void delete() {
+		_UsuariosDict.remove(this.id);
+	}
+	
+	public static List<Usuario> All(){
+		return new ArrayList<Usuario>(_UsuariosDict.values());
+	}
+	
+	public static Usuario GetById(int id) {
+		return _UsuariosDict.get(id);
+	}
+	
+	private static HashMap<Integer, Usuario> _UsuariosDict = new HashMap<>();
+	private static int _usuarioSeq = 0;
 }

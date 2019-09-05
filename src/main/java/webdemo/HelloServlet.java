@@ -33,6 +33,7 @@ public class HelloServlet extends HttpServlet {
 		
 		if (name == null)
 			name = "World";
+		
 		request.setAttribute("user", resultado);
 		request.getRequestDispatcher("response.jsp").forward(request, response);
 	}

@@ -1,17 +1,54 @@
+//Aqui estão definidos quais os plugins serão usados no desenvolvimento desta app
 plugins {
-    id 'war'
+	//Este plugin indica que se trata de uma aplicação web Java (ou seja, dentre
+	//outras coisas, o resultado do build é um pacote *.war
+    id 'war' 
+    //Este plugin facilita o desenvolvimento de aplicações web Java baseadas em 
+    // Servlet Containers, em especial adicionando tasks específicas para este tipo
+    //de trabalho. Um dos exemplos é a task appRun, que permite que, ao modificar uma
+    //classe, o projeto seja compilado e implantado no Servlet Container, sem que eu 
+    //precise interrompê-lo e fazer a implantação manual
     id 'org.gretty' version '2.3.1'
 }
 
+//Define que a compilação da aplicação usará o UTF-8 como padrão de encoding (se não definido,
+//a compilação usa o padrão da máquina, ou seja, poderá gerar comportamentos "estranhos" com
+//variáveis do tipo String - principalmente no caso de aplicações web
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+//Aqui eu definindo qual(is) repositórios serão usados para a resolução de dependências
 repositories {
     jcenter()
 }
 
+//Aqui estão definidas quais são as dependências do meu projeto
 dependencies {
-  providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
-  testCompile 'junit:junit:4.12'
+	//Aqui estou definindo que minha app vai trabalhar com a versão 4 da API de Servlets
+	//Note que o contexto indica que ela não será levada para distribuível final, uma vez
+	//que a API de Servlets faz parte do Servlet Container
+	providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
+	providedCompile 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.3'
+	
+	//Estas bibliotecas fornecem algumas funções úteis para operações comuns (ver documentação)
+	compile 'com.google.guava:guava:28.1-jre'
+	compile 'org.apache.commons:commons-lang3:3.9'
+	
+	//Adição da referência para as bibliotecas de tags - JSTL
+	compile 'javax.servlet:jstl:1.2'
+	compile 'javax.servlet.jsp.jstl:jstl-api:1.2'
+	
+	//Esta dependência será usada no contexto de testes da aplicação
+  	testCompile 'junit:junit:4.12'
 }
 
+//Aqui estão as configurações específicas do plugin Gretty (para mais detalhes sobre as configurações
+//disponíveis, ver a documentação do plugin
 gretty {
-	contextPath '/'
+	//Define o caminho da aplicação no Servlet Container. Neste caso estou assumindo que esta aplicação está
+	//na raíz. Se eu não fizesse isso, minha aplicação seria executada no contexto "/weddemo"
+	contextPath '/' 
+	//Eu preciso definir a versão do Jetty no caso de estar trabalhando com uma vers�o do Java superior ao 8
+	//O Gretty assume como padrão uma versão do Jetty que suporta apenas o Java8
+	servletContainer 'jetty9.4' 
 }
