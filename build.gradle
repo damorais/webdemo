@@ -22,6 +22,14 @@ repositories {
     jcenter()
 }
 
+//Utiliza o JUnitPlatform para a execução de testes. Provê uma visualização mais amigável
+test {
+    useJUnitPlatform()   
+    testLogging {
+		events "passed", "skipped", "failed"
+	}
+}
+
 //Aqui estão definidas quais são as dependências do meu projeto
 dependencies {
 	//Aqui estou definindo que minha app vai trabalhar com a versão 4 da API de Servlets
@@ -39,7 +47,9 @@ dependencies {
 	compile 'javax.servlet.jsp.jstl:jstl-api:1.2'
 	
 	//Esta dependência será usada no contexto de testes da aplicação
-  	testCompile 'junit:junit:4.12'
+  	testImplementation('org.junit.jupiter:junit-jupiter:5.5.1')
+  	testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.1")
 }
 
 //Aqui estão as configurações específicas do plugin Gretty (para mais detalhes sobre as configurações

@@ -8,12 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
-import com.google.common.base.Strings;
-
-import webdemo.entidades.Usuario;
-
 //TODO: Preciso adicionar uma rota para edição aqui /usuarios/editar?id=123 . Como faço isso?
 @WebServlet(urlPatterns = {"/usuarios/novo"})
 public class UsuarioServlet extends HttpServlet {

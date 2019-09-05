@@ -21,7 +21,7 @@ public class UsuariosServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, 
 			HttpServletResponse response) 
 					throws IOException, ServletException {
-		List<Usuario> usuarios = Usuario.All();
+		List<Usuario> usuarios = Usuario.Todos();
 		
 		request.setAttribute("Usuarios", usuarios);
 			
@@ -37,7 +37,7 @@ public class UsuariosServlet extends HttpServlet {
 			String sobrenome = request.getParameter("sobrenome");
 			
 			Usuario usuario = new Usuario(nome, sobrenome);
-			usuario.save();
+			usuario.salvar();
 			
 			response.sendRedirect("/usuarios?success=true");
 		}else {

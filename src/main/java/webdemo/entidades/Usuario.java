@@ -37,7 +37,7 @@ public class Usuario {
 		this.sobrenome = sobrenome;
 	}
 	
-	public void save() {
+	public void salvar() {
 		if(this.id == 0) {
 			_usuarioSeq++;
 			this.setId(_usuarioSeq);
@@ -47,11 +47,11 @@ public class Usuario {
 		}
 	}
 	
-	public void delete() {
+	public void remover() {
 		_UsuariosDict.remove(this.id);
 	}
 	
-	public static List<Usuario> All(){
+	public static List<Usuario> Todos(){
 		return new ArrayList<Usuario>(_UsuariosDict.values());
 	}
 	
