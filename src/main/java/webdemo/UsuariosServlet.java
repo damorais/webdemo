@@ -41,7 +41,7 @@ public class UsuariosServlet extends HttpServlet {
 			
 			response.sendRedirect("/usuarios?success=true");
 		}else {
-			request.getRequestDispatcher("/WEB-INF/templates/usuarios/create.jsp?success=false").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/templates/usuarios/criar.jsp?success=false").forward(request, response);
 		}
 
 	}
@@ -61,8 +61,7 @@ public class UsuariosServlet extends HttpServlet {
 		}
 		
 		return isValid;
-	}
-					
+	}		
 	
 	private static final long serialVersionUID = 3931640733487616093L;
 }

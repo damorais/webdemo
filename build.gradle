@@ -50,6 +50,9 @@ dependencies {
   	testImplementation('org.junit.jupiter:junit-jupiter:5.5.1')
   	testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.1")
+    
+    testImplementation 'io.cucumber:cucumber-java:4.7.2'
+    testImplementation 'io.cucumber:cucumber-junit:4.7.2'
 }
 
 //Aqui estão as configurações específicas do plugin Gretty (para mais detalhes sobre as configurações
@@ -61,4 +64,21 @@ gretty {
 	//Eu preciso definir a versão do Jetty no caso de estar trabalhando com uma vers�o do Java superior ao 8
 	//O Gretty assume como padrão uma versão do Jetty que suporta apenas o Java8
 	servletContainer 'jetty9.4' 
+}
+
+configurations {
+	cucumberRuntime {
+		extendsFrom testImplementation
+	}
+}
+
+task cucumber() {
+	dependsOn assemble, compileTestJava
+	doLast {
+		javaexec {
+			main = "io.cucumber.core.cli.Main"
+			classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+			args = ['--plugin', 'pretty', '--glue', 'webdemo.cucumber', 'src/test/resources']
+		}
+	}
 }
