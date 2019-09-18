@@ -14,7 +14,7 @@ import com.google.common.base.Strings;
 
 import webdemo.entidades.Usuario;
 
-@WebServlet("/usuarios")
+//@WebServlet("/usuarios")
 public class UsuariosServlet extends HttpServlet {
 
 	@Override	

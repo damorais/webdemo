@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 //TODO: Preciso adicionar uma rota para edição aqui /usuarios/editar?id=123 . Como faço isso?
-@WebServlet(urlPatterns = {"/usuarios/novo"})
+//@WebServlet(urlPatterns = {"/usuarios/novo"})
 public class UsuarioServlet extends HttpServlet {
 	
 	@Override	

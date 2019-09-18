@@ -12,7 +12,7 @@
 </head>
 <body class="container">
 	<h1>Criar Usuário</h1>
-	<form method="post" action="/usuarios">
+	<form method="post" action="/usuarios/create">
 		<div class="form-group">
 			<minha:validatedinputtext rotulo="Nome" valor="${param.nome}"
 				erroValidacao="${NomeInvalido}" invalido="${empty NomeInvalido}"
