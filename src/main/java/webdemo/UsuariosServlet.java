@@ -2,6 +2,8 @@ package webdemo;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,57 +14,36 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.base.Strings;
 
+import webdemo.controllers.UsuariosController;
 import webdemo.entidades.Usuario;
 
-@WebServlet("/usuarios")
+//@WebServlet("/usuarios")
 public class UsuariosServlet extends HttpServlet {
 
 	@Override	
 	protected void doGet(HttpServletRequest request, 
 			HttpServletResponse response) 
 					throws IOException, ServletException {
-		List<Usuario> usuarios = Usuario.Todos();
 		
-		request.setAttribute("Usuarios", usuarios);
-			
-		request.getRequestDispatcher("/WEB-INF/templates/usuarios/list.jsp")
-			.forward(request, response);
+		new UsuariosController(request, response)
+			.list();
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
-		if(isValid(request)) {
-			String nome = request.getParameter("nome");
-			String sobrenome = request.getParameter("sobrenome");
-			
-			Usuario usuario = new Usuario(nome, sobrenome);
-			usuario.salvar();
-			
-			response.sendRedirect("/usuarios?success=true");
-		}else {
-			request.getRequestDispatcher("/WEB-INF/templates/usuarios/create.jsp?success=false").forward(request, response);
-		}
-
-	}
-	
-	private boolean isValid(HttpServletRequest request) throws UnsupportedEncodingException {
-		boolean isValid = true;
-	
-		if(Strings.isNullOrEmpty(request.getParameter("nome"))) {
-			//request.setAttribute("NomeInvalido", new String("O nome é obrigatório!".getBytes(), "UTF-8"));
-			request.setAttribute("NomeInvalido", "O nome é obrigatório!");
-			isValid = false;
-		}
-			
-		if(Strings.isNullOrEmpty(request.getParameter("sobrenome"))) {
-			request.setAttribute("SobrenomeInvalido", "O sobrenome é obrigatório!");
-			isValid = false;
+		HashMap<String, String> formData = new HashMap<String, String>();
+		
+		Enumeration<String> param = request.getParameterNames();
+		
+		while(param.hasMoreElements()) {
+			String element = param.nextElement();
+			formData.put(element, request.getParameter(element));
 		}
 		
-		return isValid;
-	}
-					
+		new UsuariosController(request, response)
+			.create(formData);
+	}				
 	
 	private static final long serialVersionUID = 3931640733487616093L;
 }

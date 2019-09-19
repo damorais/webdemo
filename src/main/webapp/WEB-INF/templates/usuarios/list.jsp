@@ -33,14 +33,14 @@
 					<td>${usuario.nome}</td>
 					<td>${usuario.sobrenome}</td>
 					<td>
-						<a href="/usuarios/editar?id=${usuario.id}">Editar</a>
+						<a href="/usuarios/edit/${usuario.id}">Editar</a>
 					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 	
-	<a href="/usuarios/novo" class="btn btn-primary">Criar</a>
+	<a href="/usuarios/create" class="btn btn-primary">Criar</a>
 	
 	<c:import url="/WEB-INF/templates/common/_bootstrap_js.jsp" />
 	
